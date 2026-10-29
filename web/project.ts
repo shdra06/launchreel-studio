@@ -7,7 +7,7 @@ export const FINISHES = ['silver','graphite','black','white'] as const;
 export const LIGHTING = ['studio','soft','dramatic','sunset','neon'] as const;
 export const EASINGS = ['smooth','linear','ease-out','dramatic'] as const;
 export const TITLE_LAYOUTS = ['top-left','bottom-left','center','top-center','none'] as const;
-export const MOTIONS = ['hero','reveal','orbit','closeup','push','tilt','dolly','still','swoop','rise'] as const;
+export const MOTIONS = ['hero','reveal','orbit','closeup','push','tilt','dolly','still','swoop','rise','feature','arc','crane','macro','pullback'] as const;
 export const LAYER_MOTIONS = ['pop','float','slide','none'] as const;
 export const HIGHLIGHT_STYLES = ['spotlight','outline','zoom'] as const;
 export const TRANSITIONS = ['cut','fade'] as const;
@@ -76,6 +76,12 @@ export function cameraPreset(motion:string,duration:number,frame:Frame={width:5.
   // Make room where the headline is: beside it for left-aligned titles, under it for centred ones.
   const t:Vec3=room==='none'?[0,0,0]:portrait||room==='top-center'||room==='center'?[0,visible*(room==='center'?0:room.startsWith('bottom')?-.1:.1),0]:[-visible*frame.aspect*.17,device.height*(room==='bottom-left'?-.04:.05),0];
   const at=(x:number,y:number,z:number):Vec3=>[t[0]+x,t[1]+y,t[2]+z];
+  /** The same composition at a closer distance: the product fills ~80% of the picture height, still clear of the headline. */
+  const big=()=>{const half=Math.tan(fov*Math.PI/360),side=!portrait&&(room==='top-left'||room==='bottom-left');
+    // Tall products fill ~80% of the height; wide ones stop at ~60% of the width when the headline sits beside them.
+    const bd=Math.max(device.height/2/half/(portrait?.7:.8),device.width/2/(half*frame.aspect)/(side?.6:portrait?.86:.82)),bv=2*bd*half;
+    const bt:Vec3=room==='none'?[0,0,0]:portrait||room==='top-center'||room==='center'?[0,bv*(room==='center'?0:room.startsWith('bottom')?-.08:.08),0]:[-bv*frame.aspect*.2,device.height*(room==='bottom-left'?-.03:.03),0];
+    return {d:bd,t:bt,at:(x:number,y:number,z:number):Vec3=>[bt[0]+x,bt[1]+y,bt[2]+z]};};
   const key=(time:number,position:Vec3,target:Vec3=t):CameraKey=>({time,position,target,fov});
   switch(motion){
     case 'hero':return [key(0,[0,hero*.02,hero*1.04],[0,0,0]),key(duration,[0,0,hero*.98],[0,0,0])];
@@ -87,6 +93,14 @@ export function cameraPreset(motion:string,duration:number,frame:Frame={width:5.
     case 'still':return [key(0,at(0,d*.04,d)),key(duration,at(0,d*.04,d))];
     case 'swoop':return [key(0,at(-d*.85,-d*.12,d*.55)),key(duration*.55,at(-d*.18,d*.04,d*.92)),key(duration,at(d*.06,d*.02,d*.97))];
     case 'rise':return [key(0,at(d*.08,-d*.55,d*.85),[t[0],t[1]+.6,0]),key(duration,at(0,d*.03,d*.95))];
+    // Launch-film moves that keep the product big: it fills about 80% of the picture beside the headline.
+    case 'feature':{const b=big();return [key(0,b.at(-b.d*.3,b.d*.1,b.d*.96),b.t),key(duration,b.at(b.d*.12,b.d*.02,b.d*.9),b.t)];}
+    case 'arc':{const b=big();return [key(0,b.at(-b.d*.75,-b.d*.3,b.d*.62),b.t),key(duration*.5,b.at(-b.d*.12,-b.d*.1,b.d*.95),b.t),key(duration,b.at(b.d*.4,b.d*.02,b.d*.88),b.t)];}
+    case 'crane':{const b=big();return [key(0,b.at(-b.d*.1,b.d*.95,b.d*.38),b.t),key(duration,b.at(b.d*.05,b.d*.04,b.d*.95),b.t)];}
+    // A macro pass along the top of the UI, as close as the footage stays sharp, sliding across like a lens on a rail.
+    case 'macro':{const y=frame.height*.2,z=hero*.6;return [key(0,[-frame.width*.16,y+.04,z],[-frame.width*.07,y,0]),key(duration,[frame.width*.14,y,z*.95],[frame.width*.07,y,0])];}
+    // Starts on a detail and pulls back to reveal the whole product beside the headline.
+    case 'pullback':{const b=big();return [key(0,[frame.width*.05,frame.height*.15,hero*.45],[0,frame.height*.15,0]),key(duration,b.at(0,b.d*.04,b.d),b.t)];}
     default:return [key(0,at(d*.42,d*.3,d*1.25)),key(duration,at(-d*.06,d*.05,d))];
   }
 }

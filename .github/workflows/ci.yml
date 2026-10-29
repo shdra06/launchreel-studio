@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - run: npm ci
+      - name: Type check
+        run: npm run check
+      - name: Editor tests
+        run: npm test
+      - name: Host tests
+        run: dotnet test tests/Studio.Host.Tests -p:NuGetAudit=false
+      - name: Build
+        run: |
+          npm run build:web
+          dotnet build src/Studio.Host/Studio.Host.csproj -c Release -p:NuGetAudit=false -o artifacts/studio
+      - uses: actions/upload-artifact@v4
+        with:
+          name: LaunchReel-Studio
+          path: artifacts/studio

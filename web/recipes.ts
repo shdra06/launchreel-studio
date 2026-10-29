@@ -18,7 +18,7 @@ const LOOKS:Record<string,Look>={
   short:{stage:'atelier',finish:'white',accent:'#5b8def',background:'#e9eef5',titleColor:'#1a2333',lighting:'soft',lightIntensity:1.25},
   tour:{stage:'atelier',finish:'white',accent:'#5b8def',background:'#e9eef5',titleColor:'#1a2333',lighting:'soft',lightIntensity:1.2},
 };
-const MOVES=['swoop','push','orbit','rise','dolly','hero'] as const;
+const MOVES=['arc','feature','crane','pullback','orbit','macro'] as const;
 
 /** Builds the recipe's storyboard from the project's own image and video captures (with any crops given per asset). */
 export function recipeStoryboard(recipe:Recipe,project:Project,options:{appName?:string;crops?:Record<string,Rect>}={}){

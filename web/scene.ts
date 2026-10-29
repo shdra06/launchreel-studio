@@ -161,7 +161,8 @@ export class StudioScene {
         // Launch-event look: a deep, glossy floor under slowly drifting fields of coloured light.
         if(shot.device!=='title')this.floor(floorY,new T.Color(shot.background).multiplyScalar(.12).getStyle(),.45,.85);
         const hue=new T.Color(shot.accent).getHSL({h:0,s:0,l:0}).h;
-        ([[0,0,-6,30,.7],[.14,-11,-3,26,.5],[-.12,10,2,28,.6],[.45,-2,-9,22,.35]] as const).forEach(([shift,x,y,size,a],i)=>{const c=new T.Color().setHSL((hue+shift+1)%1,.85,.55),rgba=(al:number)=>`rgba(${c.r*255|0},${c.g*255|0},${c.b*255|0},${al})`;
+        // Analogous hues only (no complementary colour) at moderate saturation: rich, but calm enough that the app leads.
+        ([[0,0,-6,30,.6],[.07,-11,-3,26,.38],[-.06,10,2,28,.45],[.03,-2,-9,22,.22]] as const).forEach(([shift,x,y,size,a],i)=>{const c=new T.Color().setHSL((hue+shift+1)%1,.62,.5),rgba=(al:number)=>`rgba(${c.r*255|0},${c.g*255|0},${c.b*255|0},${al})`;
           const mesh=new T.Mesh(new T.PlaneGeometry(size,size),new T.MeshBasicMaterial({map:this.canvasTexture(256,256,ctx=>{const g=ctx.createRadialGradient(128,128,0,128,128,128);g.addColorStop(0,rgba(a));g.addColorStop(.5,rgba(a*.35));g.addColorStop(1,rgba(0));ctx.fillStyle=g;ctx.fillRect(0,0,256,256);}),transparent:true,depthWrite:false,blending:T.AdditiveBlending,toneMapped:false,fog:false}));
           mesh.position.set(x,floorY+10+y,-22-i*2);this.stage.add(mesh);this.glows.push({mesh,x,y:floorY+10+y,r:3+i,speed:.12+i*.04,phase:i*1.7});});
         break;}

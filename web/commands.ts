@@ -8,7 +8,7 @@ import type {Edit,Project} from './project.ts';
 const words=(...phrases:string[])=>new RegExp(String.raw`\b(?:${phrases.join('|')})\b`);
 const WORDS:Array<[RegExp,string,unknown]>=[
   [words('glass panel','panel','3d clipboard','just the clipboard'),'device','panel'],[words('title card','text card'),'device','title'],[words('aurora','launch look','glow stage'),'stage','aurora'],
-  [words('swoop'),'motion','swoop'],[words('crane up','rise up'),'motion','rise'],[words('pop title','pop text','pop headline'),'titleMotion','pop'],[words('words rise','rising title','rising text'),'titleMotion','rise'],
+  [words('swoop'),'motion','swoop'],[words('feature shot','product big','big product'),'motion','feature'],[words('low arc','arc shot','low angle'),'motion','arc'],[words('crane down','crane shot','top down'),'motion','crane'],[words('macro','macro pass','detail pass'),'motion','macro'],[words('pull back','pullback','reveal from detail'),'motion','pullback'],[words('crane up','rise up'),'motion','rise'],[words('pop title','pop text','pop headline'),'titleMotion','pop'],[words('words rise','rising title','rising text'),'titleMotion','rise'],
   [words('laptop','notebook'),'device','laptop'],[words('monitor','desktop','imac','display'),'device','desktop'],[words('tablet','ipad'),'device','tablet'],[words('phone','mobile','android','iphone'),'device','phone'],
   [words('floating screen','floating'),'device','floating'],[words('bare','frameless','no device','just the app','ui only'),'device','none'],
   [words('workspace','pc setup','office','desk setup','battlestation','setup'),'stage','workspace'],[words('on a desk','on the desk','desk'),'stage','desk'],[words('studio'),'stage','studio'],

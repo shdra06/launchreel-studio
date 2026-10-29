@@ -54,6 +54,7 @@ Product videos usually show a mock-up: a redrawn UI, invented data, a feature th
 - **Stages:** studio cyclorama, PC desk, desk, gradient, abstract, void, **Aurora**, **Atelier**, **Pastel**.
 - **Camera moves:**
   - Hero (the app fills the frame), reveal, push, orbit, dolly, tilt, close-up, swoop, rise, still;
+  - launch-film moves that keep the product big: **feature**, **low arc**, **crane down**, **macro pass** and **pull-back reveal**;
   - four easings;
   - your own keyframes, set by dragging the preview.
 - **The launch-film look:**
