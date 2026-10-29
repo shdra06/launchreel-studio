@@ -47,12 +47,42 @@ From launch-film practice (sources below):
 
 Everything on screen is real FlyShelf footage, recorded from the app itself.
 
+## Review round 2 (v3 → v5)
+
+What was wrong with v3, judged frame by frame (one frame per second):
+- **The product was small.** The clipboard shelf filled about 15% of the frame width in summon, history and search. The background did most of the work.
+- **Angles repeated.** Summon, history and search used nearly the same three-quarter view, which read as bland.
+- **The background was garish.** Aurora mixed the accent with its complementary colour at high saturation, which competed with the app.
+
+What changed:
+- **Camera moves that keep the product big.** *feature*, *low arc*, *crane down*, *macro pass* and *pull-back reveal* hold the product at about 80% of the frame height, capped at 60% of the width beside a headline.
+- **A calmer Aurora.** It uses analogous hues only, at lower saturation.
+- **Two features from real Hub screenshots.**
+  - PDF Studio, where the camera flies onto the Merge PDF card and the card lifts off.
+  - Personalization, with the background styles outlined.
+- **Rejected after review:**
+  - A macro pass on the history, which was too close, so the footage went soft.
+  - Pull-backs under a headline, where white text sat on white UI.
+
+Fresh research, applied:
+- **Real captured screens are back in favour** over drawn motion graphics (ADVIDS, 100 software UI videos, 2026). The whole film is captured footage.
+- **Zoom on the exact control at the moment it matters,** not one fixed zoom level, and never overlap zooms (Screenhance, FloiK). Each feature shot has at most one zoom or outline.
+- **Show the payoff early** (within 15–30 s), and **cut dead time** such as loading and slow cursor moves (Vibrantsnap). The shelf appears at 2 s.
+- **Small desktop text is unreadable on phones,** so zoom into the UI (Focusee). This is why the shelf fills the frame.
+
 ## Still open
 
+- PDF merging and image editing are shown as screens, not in use. They need new recordings, which the user is making.
 - The recordings are 1080p, so the close-ups cap their zoom to stay sharp. A 4K or high-DPI take would allow tighter macro shots.
 - The cinematic (Blender) renderer has real depth of field but does not apply the clean tint yet; export refuses that combination and says so.
 
 ## Sources
+
+- [ADVIDS: UI animation and motion design trends, 2026](https://advids.co/blog/ui-animation-motion-design-trends)
+- [Screenhance: software demo video maker](https://screenhance.com/software-demo-video-maker)
+- [FloiK: drawing attention with zoom](https://www.floik.com/help-article/how-to-draw-attention-to-key-details-using-zoom)
+- [Vibrantsnap: create demos people actually watch](https://vibrantsnap.vercel.app/blog/create-engaging-product-demos)
+- [Focusee: SaaS marketing video](https://focusee.imobie.com/video-marketing/saas-marketing-video.htm)
 
 - [motion.so: Apple-style product launch video](https://motion.so/learn/apple-style-product-launch-video)
 - [Manfrotto: How to shoot cinematic tech videos like Apple](https://www.manfrotto.com/global-en/stories/how-to-shoot-cinematic-tech-videos-like-apple/)
