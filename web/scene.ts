@@ -24,6 +24,8 @@ export class StudioScene {
   private placeholder:T.CanvasTexture; private textures=new Map<string,T.Texture>();private videos=new Map<string,HTMLVideoElement>();private activeVideo?:HTMLVideoElement;
   private currentShot='';private currentKey='';private currentTitle='';private liveTexture?:T.Texture;private liveImage?:HTMLImageElement;private loader=new T.TextureLoader();
   private sourceSize:Size={width:1920,height:1080}; private raycaster=new T.Raycaster();private busyLive=false;
+  /** Marks the orbit centre while the user drags the view. Never visible in renders: it only shows during a drag. */
+  private pivot=new T.Mesh(new T.RingGeometry(.055,.08,48),new T.MeshBasicMaterial({color:'#ffffff',transparent:true,opacity:.9,depthTest:false,depthWrite:false,toneMapped:false}));
   private fit:Size={width:5.9,height:3.7};private anisotropy=1;
   private layerTextures=new Map<string,T.Texture>();private sectionTextures=new Map<string,{key:string;texture:T.Texture}>();private model?:T.Object3D;private modelAsset='';
   private hemi=new T.HemisphereLight(0xe8eeff,0x363e45,2);private key=new T.DirectionalLight(0xfff2dd,4);private fill=new T.DirectionalLight(0x9dc3ff,2.5);private rim=new T.DirectionalLight(0xffffff,3);
@@ -34,7 +36,17 @@ export class StudioScene {
     this.renderer=new T.WebGLRenderer({canvas,antialias:true,alpha:false,preserveDrawingBuffer:true});
     this.renderer.setPixelRatio(1);this.renderer.outputColorSpace=T.SRGBColorSpace;this.renderer.toneMapping=T.ACESFilmicToneMapping;this.renderer.toneMappingExposure=1.1;
     this.renderer.shadowMap.enabled=true;this.renderer.shadowMap.type=T.PCFSoftShadowMap;this.anisotropy=this.renderer.capabilities.getMaxAnisotropy();
-    this.camera.position.set(4,2.8,10);this.controls=new OrbitControls(this.camera,canvas);this.controls.target.set(0,0,0);this.controls.enableDamping=false;this.controls.minDistance=1;this.controls.maxDistance=60;this.controls.addEventListener('change',()=>this.onCameraChange?.());
+    this.camera.position.set(4,2.8,10);this.controls=new OrbitControls(this.camera,canvas);this.controls.target.set(0,0,0);this.controls.enableDamping=false;this.controls.minDistance=1;this.controls.maxDistance=60;this.controls.addEventListener('change',()=>{this.placePivot();this.onCameraChange?.();});
+    // Orbit centre: drag orbits around it, right-drag (or Shift+drag) moves it, double-click looks around the point clicked.
+    this.controls.screenSpacePanning=true;this.pivot.renderOrder=999;this.pivot.visible=false;this.scene.add(this.pivot);
+    this.controls.addEventListener('start',()=>{this.pivot.visible=true;this.placePivot();});
+    this.controls.addEventListener('end',()=>{this.pivot.visible=false;this.onCameraChange?.();});
+    canvas.addEventListener('dblclick',e=>{if(this.interactive)return;const rect=canvas.getBoundingClientRect();
+      this.raycaster.setFromCamera(new T.Vector2((e.clientX-rect.left)/rect.width*2-1,-(e.clientY-rect.top)/rect.height*2+1),this.camera);
+      const hit=this.raycaster.intersectObjects([this.device,this.layers,this.stage],true).find(h=>h.object.visible&&h.object!==this.pivot);if(!hit)return;
+      // Keep the same viewing direction and distance, now centred on the point: the user then orbits around it.
+      const offset=this.camera.position.clone().sub(this.controls.target);this.controls.target.copy(hit.point);this.camera.position.copy(hit.point).add(offset);this.controls.update();
+      this.pivot.visible=true;this.placePivot();this.onCameraChange?.();setTimeout(()=>{this.pivot.visible=false;this.onCameraChange?.();},700);});
     this.device.add(this.anchor);this.scene.add(this.stage,this.device,this.layers,this.hemi,this.key,this.fill,this.rim,this.key.target);
     this.key.castShadow=true;this.key.shadow.mapSize.set(2048,2048);Object.assign(this.key.shadow.camera,{left:-14,right:14,top:14,bottom:-14,far:60});this.key.shadow.bias=-.0002;this.key.shadow.radius=4;this.key.shadow.camera.updateProjectionMatrix();
     this.placeholder=this.makePlaceholder();this.titleTexture=new T.CanvasTexture(this.titleCanvas);this.titleTexture.colorSpace=T.SRGBColorSpace;
@@ -56,6 +68,7 @@ export class StudioScene {
     const key=(e:KeyboardEvent,type:'down'|'up')=>{if(!this.interactive)return;if(e.key==='Escape'&&e.shiftKey){this.setInteractive(false);this.onExit?.();return;}e.preventDefault();this.onInput?.({action:'key',type,vk:e.keyCode,key:e.key,alt:e.altKey});};
     canvas.addEventListener('keydown',e=>key(e,'down'));canvas.addEventListener('keyup',e=>key(e,'up'));
   }
+  private placePivot(){if(!this.pivot.visible)return;this.pivot.position.copy(this.controls.target);this.pivot.quaternion.copy(this.camera.quaternion);this.pivot.scale.setScalar(Math.max(.2,this.camera.position.distanceTo(this.controls.target)*.06));}
   setInteractive(value:boolean){this.interactive=value;this.controls.enabled=!value;this.canvas.style.cursor=value?'crosshair':'grab';}
   resize(width:number,height:number){this.width=Math.round(width);this.height=Math.round(height);this.renderer.setSize(this.width,this.height,false);this.composer.setSize(this.width,this.height);this.camera.aspect=width/height;this.camera.updateProjectionMatrix();}
   makePlaceholder(){const c=document.createElement('canvas');c.width=1600;c.height=1000;const x=c.getContext('2d')!;
