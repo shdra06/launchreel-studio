@@ -1,0 +1,26 @@
+{
+  "name": "launchreel-studio",
+  "version": "0.3.0",
+  "description": "Make launch films, ads and screenshots from your real, running Windows or Android app.",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:web": "node scripts/build.mjs",
+    "check": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "build": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build.ps1",
+    "verify": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1",
+    "start": "\"Start Studio.cmd\""
+  },
+  "dependencies": {
+    "three": "0.186.1"
+  },
+  "devDependencies": {
+    "@types/three": "^0.183.1",
+    "esbuild": "^0.25.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0",
+    "@types/node": "^24.0.0"
+  }
+}

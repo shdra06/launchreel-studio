@@ -1,0 +1,15 @@
+<Window x:Class="Studio.Fixture.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Studio test fixture" Width="900" Height="600" MinWidth="420" MinHeight="300" Background="#20242B" Foreground="#E8ECE9" ShowActivated="False" WindowStartupLocation="Manual">
+  <Grid Margin="28">
+    <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+    <TextBlock Text="Studio test fixture" FontSize="26" FontWeight="SemiBold" Margin="0,0,0,18"/>
+    <TextBox Grid.Row="1" x:Name="Field" FontSize="15" Padding="10" Margin="0,0,0,18"/>
+    <Border Grid.Row="2" x:Name="Panel" Background="#2C3440" CornerRadius="10" Padding="20">
+      <TextBlock x:Name="Output" FontSize="18" Text="Ready" TextWrapping="Wrap"/>
+    </Border>
+    <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,18,0,0">
+      <Button Content="Count" Padding="14,8" Margin="0,0,8,0" Click="Count"/>
+      <Button Content="Close to tray" Padding="14,8" Click="HideSelf"/>
+    </StackPanel>
+  </Grid>
+</Window>

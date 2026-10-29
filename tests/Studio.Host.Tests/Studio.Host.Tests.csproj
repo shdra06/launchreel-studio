@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Tests compile the host's platform-independent sources directly, so they need no window, WebView or capture. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+    <NuGetAudit>false</NuGetAudit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../src/Studio.Host/WindowRules.cs" Link="Host/WindowRules.cs" />
+    <Compile Include="../../src/Studio.Host/CapturedFrame.cs" Link="Host/CapturedFrame.cs" />
+    <Compile Include="../../src/Studio.Host/Recorder.cs" Link="Host/Recorder.cs" />
+    <Compile Include="../../src/Studio.Host/MediaService.cs" Link="Host/MediaService.cs" />
+    <Compile Include="../../src/Studio.Host/CinematicComposite.cs" Link="Host/CinematicComposite.cs" />
+    <Compile Include="../../src/Studio.Host/DemoScript.cs" Link="Host/DemoScript.cs" />
+    <Compile Include="../../src/Studio.Host/AppCatalog.cs" Link="Host/AppCatalog.cs" />
+    <Compile Include="../../src/Studio.Host/AppWindows.cs" Link="Host/AppWindows.cs" />
+    <Compile Include="../../src/Studio.Host/Android.cs" Link="Host/Android.cs" />
+    <Compile Include="../../src/Studio.Host/WindowInput.cs" Link="Host/WindowInput.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
+  </ItemGroup>
+</Project>

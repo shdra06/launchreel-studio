@@ -1,0 +1,21 @@
+# Dependencies and build output
+node_modules/
+dist/
+artifacts/
+**/bin/
+**/obj/
+*.user
+
+# Local tools, studio data and rendered media (may show personal app content)
+tools/
+.studio-state/
+ads/
+*.mp4
+*.mov
+*.wav
+logs/
+
+# Local editor and agent settings
+.claude/
+.vs/
+.vscode/

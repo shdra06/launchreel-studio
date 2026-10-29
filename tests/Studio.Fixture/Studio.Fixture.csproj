@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Test-only window used by Studio's automated checks. It is never shipped with Studio and imitates no real app. -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>Studio Test Fixture</AssemblyName>
+    <Product>Studio Test Fixture</Product>
+  </PropertyGroup>
+  <ItemGroup><ProjectReference Include="../../sdk/Studio.Bridge.Wpf/Studio.Bridge.Wpf.csproj" /></ItemGroup>
+</Project>
