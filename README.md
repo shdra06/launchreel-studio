@@ -10,6 +10,7 @@ Open any Windows or Android app and stage its real UI in 3D. Direct the shots by
 ![Platform](https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-0a84ff)
 ![.NET 10](https://img.shields.io/badge/.NET-10-512bd4)
 ![Three.js](https://img.shields.io/badge/Three.js-0.186-black)
+[![CI](https://github.com/shdra06/launchreel-studio/actions/workflows/ci.yml/badge.svg)](https://github.com/shdra06/launchreel-studio/actions/workflows/ci.yml)
 
 </div>
 
